@@ -26,6 +26,7 @@ Possible Data Sources:
     * http://www.bitlaw.com/copyright/database.html
     * https://en.wikipedia.org/wiki/List_of_online_music_databases
     * https://en.wikipedia.org/wiki/Category:Online_music_and_lyrics_databases
+    * https://developer.gracenote.com/web-api#python
     
   Top-40 songs:
     * http://www.billboard.com/charts/hot-100/1958-08-09
@@ -49,4 +50,55 @@ Possible Data Sources:
     * http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset
       - problematic getting to the data
       
-    *
+    * 
+    
+Components:
+
+Database:
+  Stores song names, artist, chart rank, chart date, word count data.
+  If i'm doing this in passes, should also store the charts themselves.
+  Could store lyrics as well, but that's not essential.
+  
+HttpParser:
+  To make requests to websites, and then pass the returned page to either ChartParser
+    or LyricParser
+
+ChartParser:
+  Takes song chart information and stores in db. 
+  
+LyricParser:
+  Takes lyric information and stores in db.
+  
+RawDBViewer:
+  Display mostly unformatted db contents (tables and records). Can be as pretty 
+    or ugly as desired.
+    
+CSVWriter:
+  Takes supplied records and returns csv format file.Takes
+  
+SheetsWriter:
+  Takes supplied records and creates a spreadsheet containing them.
+
+SheetsReader:
+  Parses supplied spreadsheet (or spreadsheet location).
+  
+WordCloudGenerator:
+  Generates wordcloud output for html display.
+  
+AnalyzeLyrics:
+  Counts word occurrence in lyrics for a supplied dataset at a supplied time interval.
+  If a word (or list of words) is supplied, only analyze for supplied words.
+
+AdHocQueryView:
+  Generate custom queries, view/store results.
+
+  
+Notes:
+  * Chart interval = smallest time interval possible, so why not just analyze at that interval
+    and store the word count analysis.
+      - Saves future compute at the expense of storage and immediate compute.
+      - Should greatly decrease adhoc query latency.
+  
+ 
+    
+  
