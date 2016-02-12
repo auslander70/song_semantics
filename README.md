@@ -27,6 +27,7 @@ Possible Data Sources:
     * https://en.wikipedia.org/wiki/List_of_online_music_databases
     * https://en.wikipedia.org/wiki/Category:Online_music_and_lyrics_databases
     * https://developer.gracenote.com/web-api#python
+    * http://www.programmableweb.com/news/25-music-apis/2008/02/21
     
   Top-40 songs:
     * http://www.billboard.com/charts/hot-100/1958-08-09
