@@ -88,6 +88,6 @@ def ParseChartData(soup):
         artist_gen = row.find('div', {'class': 'chart-row__title'}).a.stripped_strings
         for i in artist_gen:
             artist = i
-        chart_dict{ rank : [song, artist]}
+        chart_dict = {rank : [song, artist]}
     return chart_dict
     
