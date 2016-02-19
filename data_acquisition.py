@@ -25,7 +25,8 @@ def GenerateURL(datestamp):
     
     protocol = 'http://'
     base_url = 'www.billboard.com'
-    url = protocol + base_url + '/' + datestamp
+    url_path = 'charts/hot-100/'
+    url = protocol + base_url + '/' + url_path + datestamp
     return url
     
 def GetNextSaturday(datestring):
@@ -55,7 +56,7 @@ def GetNextSaturday(datestring):
     out_date = next_date.strftime(dateformat)
     return out_date
     
-def GetWebPage(url):
+def GetURL(url):
     """Retrieve given url.
     
     Args:
@@ -69,6 +70,24 @@ def GetWebPage(url):
     parsed_result = BeautifulSoup(result, 'html5lib')
     return parsed_result
     
+def ParseChartData(soup):
+    """ Take a beautifulsoup object and pull billboard chart data.Take
     
+    Args:
+        soup: beautifulsoup object
+        
+    Returns:
+        dict of rank, songnames, artists
+    """
     
+    chartdiv = soup.find('div', {'class': 'chart-data'})
+    chart_dict = {}
+    for row in chartdiv.find_all('div', {'class': 'chart-row__primary'}):
+        rank = row.find('div', {'class': 'chart-row__rank'}).span.get_text()
+        song = row.find('div', {'class': 'chart-row__title'}).h2.get_text()
+        artist_gen = row.find('div', {'class': 'chart-row__title'}).a.stripped_strings
+        for i in artist_gen:
+            artist = i
+        chart_dict{ rank : [song, artist]}
+    return chart_dict
     
