@@ -84,10 +84,8 @@ def ParseChartData(soup):
     chart_dict = {}
     for row in chartdiv.find_all('div', {'class': 'chart-row__primary'}):
         rank = row.find('div', {'class': 'chart-row__rank'}).span.get_text()
-        song = row.find('div', {'class': 'chart-row__title'}).h2.get_text()
-        artist_gen = row.find('div', {'class': 'chart-row__title'}).a.stripped_strings
-        for i in artist_gen:
-            artist = i
-        chart_dict = {rank : [song, artist]}
+        song = row.find('div', {'class': 'chart-row__title'}).h2.get_text().strip()
+        raw_artist = row.find('div', {'class': 'chart-row__title'}).h3.get_text().strip()
+        chart_dict[rank] = [song, artist]
     return chart_dict
     
