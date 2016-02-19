@@ -62,13 +62,17 @@ Database:
   
 HttpParser:
   To make requests to websites, and then pass the returned page to either ChartParser
-    or LyricParser
+    or LyricParser (import requests) 3rd party module (barely), will need to install
+    datetime.date(1959,1,7)
+    beautifulsoup to parse (bs4)
 
 ChartParser:
   Takes song chart information and stores in db. 
+  beautifulsoup to parse (bs4)
   
 LyricParser:
   Takes lyric information and stores in db.
+  beautifulsoup to parse (bs4)
   
 RawDBViewer:
   Display mostly unformatted db contents (tables and records). Can be as pretty 
@@ -93,6 +97,8 @@ AnalyzeLyrics:
 AdHocQueryView:
   Generate custom queries, view/store results.
 
+GraphingOutput:
+  matplotlib
   
 Notes:
   * Chart interval = smallest time interval possible, so why not just analyze at that interval
@@ -100,6 +106,36 @@ Notes:
       - Saves future compute at the expense of storage and immediate compute.
       - Should greatly decrease adhoc query latency.
   
+For next week:
+  https://www.youtube.com/watch?v=EiOglTERPEo
+  db schema complete (initial attempt)
+  request http
+  chartparser and populating the db
+  stretch lyrics populating
+
+
+anastasia movie
+
+american mcgee
+
  
     
-  
+# environment
+pip install sqlalchemy psycopg2
+pip install beautifulsoup4
+pip install Flask
+
+
+pip freeze > requirements.txt
+pip install -r requirements.txt
+
+#example requirements.txt:
+Flask==0.10.1
+Jinja2==2.8
+MarkupSafe==0.23
+SQLAlchemy==1.0.12
+Werkzeug==0.11.4
+beautifulsoup4==4.4.1
+itsdangerous==0.24
+psycopg2==2.6.1
+
