@@ -139,3 +139,7 @@ beautifulsoup4==4.4.1
 itsdangerous==0.24
 psycopg2==2.6.1
 
+sudo service postgresql start
+createdb semantics
+createdb semantics-test
+
