@@ -1,8 +1,8 @@
 import os.path
 from flask import url_for
-from sqlalchemy import Column, Integer, String, Sequence, ForeignKey
+from sqlalchemy import Column, Date, ForeignKey, Integer, Sequence, String, Table, Text
 from sqlalchemy.orm import relationship
-from tuneful import app
+from lyric_cloud import app
 from .database import Base, engine
 
 class Song(Base):
@@ -24,7 +24,7 @@ class Chart(Base):
   __tablename__ = 'chart'
   id = Column(Integer, primary_key=True)
   date = Column(Date)
-  songs = relationship('Song', secondary='chart_chartsongs_rel', backref=songs)
+  songs = relationship('Song', secondary='chart_chartsongs_rel', backref='songs')
   def as_dictionary(self):
     return {
       'id': self.id, 
@@ -46,7 +46,7 @@ class ChartSongs(Base):
     
 chart_chartsongs_rel = Table('chart_chartsongs_rel', Base.metadata, 
   Column('chart_id', Integer, ForeignKey('chart.id')),
-  Column('chartsongs_id', Integer, ForeignKey('chargsongs.id'))
+  Column('chartsongs_id', Integer, ForeignKey('chartsongs.id'))
 )
     
 class Lyrics(Base):
@@ -55,6 +55,9 @@ class Lyrics(Base):
   lyrics = Column(Text)
   song_id = Column(Integer, ForeignKey('song.id'), nullable=False)
   def as_dictionary(self):
+    return {
     'id': self.id,
     'lyrics': self.lyrics
-  }
+    }
+  
+Base.metadata.create_all(engine)

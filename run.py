@@ -1,5 +1,5 @@
 import os
-from . import app
+from lyric_cloud import app
 
 def run():
     port = int(os.environ.get('PORT', 8080))

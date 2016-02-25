@@ -6,6 +6,7 @@ import urllib
 
 SEED_DATE = '1958-08-09'
 TEST_URL = 'http://www.billboard.com/charts/hot-100/1958-08-09'
+DATE_FORMAT = '%Y-%m-%d'
 
 """ Example code:
 
@@ -41,7 +42,7 @@ def GetNextSaturday(datestring):
             * Current list of exceptions: none.
     """
     weekday = 5 # saturday
-    dateformat = '%Y-%m-%d'
+    dateformat = DATE_FORMAT
     exceptions = []
     
     in_date = datetime.strptime(datestring, dateformat)
@@ -66,7 +67,7 @@ def GetURL(url):
     """
     # TODO: wrap this in a try
     result = urllib.request.urlopen(url)
-    parsed_result = BeautifulSoup(result, 'html5lib')
+    parsed_result = BeautifulSoup(result, 'html.parser')
     return parsed_result
     
 def ParseChartData(soup):
@@ -84,7 +85,7 @@ def ParseChartData(soup):
     for row in chartdiv.find_all('div', {'class': 'chart-row__primary'}):
         rank = row.find('div', {'class': 'chart-row__rank'}).span.get_text()
         song = row.find('div', {'class': 'chart-row__title'}).h2.get_text().strip()
-        raw_artist = row.find('div', {'class': 'chart-row__title'}).h3.get_text().strip()
+        artist = row.find('div', {'class': 'chart-row__title'}).h3.get_text().strip()
         chart_dict[rank] = [song, artist]
     return chart_dict
     

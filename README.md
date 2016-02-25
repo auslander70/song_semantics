@@ -143,3 +143,12 @@ sudo service postgresql start
 createdb semantics
 createdb semantics-test
 
+
+# error
+
+sqlalchemy.exc.NoForeignKeysError: Could not determine join condition between 
+parent/child tables on relationship Chart.songs - there are no foreign keys 
+linking these tables via secondary table 'chart_chartsongs_rel'.  Ensure that 
+referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or 
+specify 'primaryjoin' and 'secondaryjoin' expressions.NoForeignKeysError
+
