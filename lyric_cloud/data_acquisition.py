@@ -36,8 +36,7 @@ def GetNextSaturday(datestring):
         datestring: date of current url Y-M-d
         
     Returns:
-        next_datestring: string with the best guess at the next datestring.
-            * defaults to datestring +7
+        next_datestring: the date of the next Saturday 
             * will adapt to holidays and changes as they are discovered. 
             * Current list of exceptions: none.
     """
