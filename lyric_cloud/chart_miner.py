@@ -8,48 +8,53 @@ from lyric_cloud import data_acquisition
 from lyric_cloud import database
 from lyric_cloud import models
 
-def GetCharts():
-# sleep range in seconds
-SLEEP_MIN = 8 
-SLEEP_MAX = 30
 
-session = database.session
-
-
-def SongExists(title, artist):
+def SongExists(session, title, artist):
   result = session.query(models.Song.id).filter(models.Song.title == title,
-                                                models.Song.artits == artist).all()
+                                                models.Song.artist == artist).all()
   if result == []:
     exists = False
   else:
     exists = True # maybe return id?
   return exists
   
-# get most recent chart from database
-#charts = session.query(models.Chart.date, models.Chart.id).order_by(models.Chart.date).all()
-charts = []
-
-if charts == []:
-  datestring = data_acquisition.SEED_DATE
-else:
-  # TODO: parse charts to get most recent datestring
-  # datestring = most_recent_datestring
-  pass
-
-datestamp = datetime.strptime(datestring, data_acquisition.DATE_FORMAT)
-
-while datestamp < datetime.now():
-  url = data_acquisition.GenerateURL(datestring)
-  parsed_result = data_acquisition.GetURL(url)
-  chart_data = data_acquisition.ParseChartData(parsed_result)
-
-  for k,v in chart_data.items():
-    rank = k
-    song = v[0]
-    artist = v[1]
-    print(rank, ': ', song, artist)
-    record = models.ChartSongs()
-    pdb.set_trace()
+def GetCharts():
+  # sleep range in seconds
+  SLEEP_MIN = 8 
+  SLEEP_MAX = 30
+  
+  session = database.session
+  # get most recent chart from database
+  #charts = session.query(models.Chart.date, models.Chart.id).order_by(models.Chart.date).all()
+  charts = []
+  
+  if charts == []:
+    datestring = data_acquisition.SEED_DATE
+  else:
+    # TODO: parse charts to get most recent datestring
+    # datestring = most_recent_datestring
+    pass
+  
+  datestamp = datetime.strptime(datestring, data_acquisition.DATE_FORMAT)
+  
+  while datestamp < datetime.now():
+    url = data_acquisition.GenerateURL(datestring)
+    parsed_result = data_acquisition.GetURL(url)
+    chart_data = data_acquisition.ParseChartData(parsed_result)
+  
+    for k,v in chart_data.items():
+      rank = k
+      title = v[0]
+      artist = v[1]
+      print(rank, ': ', title, artist)
+      if not SongExists(session, title, artist):
+        record = models.ChartSongs()
+        record.rank = rank
+        record.title = title
+        record.artist = artist
+        session.add(record)
+        session.commit()
+      pdb.set_trace()
+      
     
-  
-  
+    
