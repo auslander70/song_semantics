@@ -12,19 +12,19 @@ from lyric_cloud import models
 
 def SongExists(session, title, artist):
   result = session.query(models.Song.id).filter(models.Song.title == title,
-                                                models.Song.artist == artist).all()
+                                                models.Song.artist == artist).first()
   if result == []:
     song_id = ''
   else:
-    song_id = result
+    song_id = result[0]
   return song_id
   
 def ChartExists(session, datestamp):
-  result = session.query(models.Chart.id).filter(models.Chart.date == datestamp).all()
+  result = session.query(models.Chart.id).filter(models.Chart.date == datestamp).first()
   if result == []:
     chart_id = ''
   else:
-    chart_id = result
+    chart_id = result[0]
   return chart_id
   
 def GetCharts():
@@ -47,10 +47,14 @@ def GetCharts():
   datestamp = datetime.strptime(datestring, data_acquisition.DATE_FORMAT)
   
   while datestamp < datetime.now():
-    random.seed()
-    sleep_minutes = random.randint(SLEEP_MIN, SLEEP_MAX)
-    sleep_seconds = random.randint(0, 59)
-    sleep_time = (sleep_minutes * 60) + sleep_seconds
+    if datestring == data_acquisition.SEED_DATE:
+      sleep_time = 1
+    else:
+      random.seed()
+      sleep_minutes = random.randint(SLEEP_MIN, SLEEP_MAX)
+      sleep_seconds = random.randint(0, 59)
+      sleep_time = (sleep_minutes * 60) + sleep_seconds
+      
     print('Sleeping for {} seconds.'.format(sleep_time))
     time.sleep(sleep_time)
     
