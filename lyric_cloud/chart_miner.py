@@ -21,7 +21,6 @@ def SongExists(session, title, artist):
   
 def ChartExists(session, datestamp):
   result = session.query(models.Chart.id).filter(models.Chart.date == datestamp).all()
-  
   if result == []:
     chart_id = ''
   else:
@@ -93,6 +92,9 @@ def GetCharts():
         session.add(record)
         session.commit()
         print('Added song id {} to chart id {} at rank {}'.format(record.song_id, record.chart_id, record.rank))
+    
+    datestring = data_acquisition.GetNextSaturday(datestring)
+    datetime.strptime(datestring, data_acquisition.DATE_FORMAT)
       
     
     
