@@ -144,5 +144,9 @@ createdb semantics
 createdb semantics-test
 
 
-
+# TODO
+1. write manage.py and start using it to run data getting stuff
+2. validate the db schema
+3. write lyric acquisition functions/parser
+4. write some simple views to look at data (once it's there)
 

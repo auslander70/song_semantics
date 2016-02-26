@@ -24,7 +24,7 @@ class Chart(Base):
   __tablename__ = 'chart'
   id = Column(Integer, primary_key=True)
   date = Column(Date)
-  songs = relationship('Song', secondary='chart_chartsongs_rel', backref='songs')
+  songs = relationship('ChartSongs', backref='chart')
   def as_dictionary(self):
     return {
       'id': self.id, 
@@ -43,11 +43,6 @@ class ChartSongs(Base):
       'id': self.id,
       'rank': self.ranks
     }
-    
-chart_chartsongs_rel = Table('chart_chartsongs_rel', Base.metadata, 
-  Column('chart_id', Integer, ForeignKey('chart.id')),
-  Column('chartsongs_id', Integer, ForeignKey('chartsongs.id'))
-)
     
 class Lyrics(Base):
   __tablename__ = 'lyrics'

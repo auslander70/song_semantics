@@ -8,6 +8,7 @@ from lyric_cloud import data_acquisition
 from lyric_cloud import database
 from lyric_cloud import models
 
+def GetCharts():
 # sleep range in seconds
 SLEEP_MIN = 8 
 SLEEP_MAX = 30
@@ -21,7 +22,7 @@ def SongExists(title, artist):
   if result == []:
     exists = False
   else:
-    exists = True
+    exists = True # maybe return id?
   return exists
   
 # get most recent chart from database
