@@ -30,7 +30,7 @@ def GenerateURL(datestamp):
     url = protocol + base_url + '/' + url_path + datestamp
     return url
     
-def GetNextSaturday(datestring):
+def GetNextSaturday(datestring): # rename to GetNextChartDate (or write another function)
     """Create next datestring. 
     
     Args:
@@ -38,8 +38,7 @@ def GetNextSaturday(datestring):
         
     Returns:
         next_datestring: the date of the next Saturday 
-            * will adapt to holidays and changes as they are discovered. 
-            * Current list of exceptions: none.
+
     """
     weekday = 5 # saturday
     dateformat = DATE_FORMAT
@@ -50,9 +49,6 @@ def GetNextSaturday(datestring):
     if days_ahead <= 0: # target day already happened this week
         days_ahead += 7
     next_date = in_date + timedelta(days=days_ahead)
-    for exception in exceptions:
-        pass
-    
     out_date = next_date.strftime(dateformat)
     return out_date
     
