@@ -1,6 +1,7 @@
-import random
 import pdb
+import random
 import time
+import unicodedata
 
 from datetime import datetime
 
@@ -13,18 +14,18 @@ from lyric_cloud import models
 def SongExists(session, title, artist):
   result = session.query(models.Song.id).filter(models.Song.title == title,
                                                 models.Song.artist == artist).first()
-  if result == []:
-    song_id = ''
-  else:
+  if result:
     song_id = result[0]
+  else:
+    song_id = ''
   return song_id
   
 def ChartExists(session, datestamp):
   result = session.query(models.Chart.id).filter(models.Chart.date == datestamp).first()
-  if result == []:
-    chart_id = ''
-  else:
+  if result:
     chart_id = result[0]
+  else:
+    chart_id = ''
   return chart_id
   
 def GetCharts():
@@ -74,10 +75,13 @@ def GetCharts():
         
       for k,v in chart_data.items():
         rank = k
-        title = v[0]
-        artist = v[1]
+        title = unicodedata.normalize('NFKD', v[0]).encode('ascii','ignore')
+        title = title.decode('utf-8')
+        artist = unicodedata.normalize('NFKD', v[1]).encode('ascii','ignore')
+        artist = artist.decode('utf-8')
         print(rank, ': ', title, artist)
         song_id = SongExists(session, title, artist)
+        
         if not song_id:
           songrecord = models.Song()
           songrecord.title = title
