@@ -9,14 +9,14 @@ from datetime import datetime
 from lyric_cloud import data_acquisition
 from lyric_cloud import database
 from lyric_cloud import models
-from lyric_cloud.chart_miner import GetURL, SongExists
+from lyric_cloud.chart_miner import SongExists
 
-def GenerateLyricsUrl(title, artist):
+def GenerateLyricsUrl(artist, title):
   # TODO: remove inital 'The' from artist names
   protocol = 'http://'
-  base_url = 'www.lyricsmode.com'
-  artist_initial = artist[0]
+  base_url = 'www.lyricsmode.com/lyrics'
   artist = RemoveLeadingArticle('The', artist, ' ')
+  artist_initial = artist[0]
   artist_url = artist.replace(' ','_')
   title_url = title.replace(' ','_')
   url = protocol + base_url + '/' + artist_initial + '/' + artist_url + '/' + title_url + '.html'
@@ -28,6 +28,13 @@ def RemoveLeadingArticle(article, fragment, separator):
   fragment = ' '.join(fraglist).strip()
   return fragment
   
-def GetLyrics(title, artist):
+def GetLyrics(artist, title):
+  session = database.session
+  songs = session.query(Song).filter(lyrics == '').all()
+  url = GenerateLyricsUrl(artist, title)
+  parsed_result = data_acquisition.GetURL(url)
+  lyrics = data_aquisition.ParseLyricData(parsed_result)
+  pdb.set_trace()
+  
   pass
 

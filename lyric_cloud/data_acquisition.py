@@ -85,3 +85,17 @@ def ParseChartData(soup):
         chart_dict[rank] = [song, artist]
     return chart_dict
     
+def ParseLyricData(soup):
+    """ Take a beautifulsoup object and pull lyrics
+    
+    Args:
+        soup: beautifulsoup object
+        
+    Returns:
+        string containing song lyrics
+    """
+    
+    lyric = parsed_result.find('p', {'id': 'lyrics_text'}).get_text().replace('\n',' \n ')
+    return lyric
+
+    
