@@ -4,14 +4,14 @@ from datetime import timedelta
 
 import urllib
 
-SEED_DATE = '1958-08-30'
+SEED_DATE = '1962-01-13'
 TEST_URL = 'http://www.billboard.com/charts/hot-100/1958-08-09'
 DATE_FORMAT = '%Y-%m-%d'
 
 """ Example code:
 
 result = urllib.request.urlopen(TEST_URL)
-parsedresult = BeautifulSoup(result, 'html5lib')
+parsedresult = BeautifulSoup(result, 'html.parser')
 """
 
 def GenerateURL(datestamp):

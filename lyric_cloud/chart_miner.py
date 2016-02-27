@@ -30,8 +30,8 @@ def ChartExists(session, datestamp):
   
 def GetCharts():
   # sleep range in minutes
-  SLEEP_MIN = 2 
-  SLEEP_MAX = 5
+  SLEEP_MIN = 0 
+  SLEEP_MAX = 2
   
   session = database.session
   # get most recent chart from database
