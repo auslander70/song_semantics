@@ -102,7 +102,7 @@ def GetCharts():
         print('Added song id {} to chart id {} at rank {}'.format(record.song_id, record.chart_id, record.rank))
     
     datestring = data_acquisition.GetNextSaturday(datestring)
-    datetime.strptime(datestring, data_acquisition.DATE_FORMAT)
+    datestamp = datetime.strptime(datestring, data_acquisition.DATE_FORMAT)
       
     
     
