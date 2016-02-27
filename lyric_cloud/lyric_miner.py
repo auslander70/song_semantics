@@ -31,10 +31,9 @@ def RemoveLeadingArticle(article, fragment, separator):
 def GetLyrics(artist, title):
   session = database.session
   songs = session.query(Song).filter(lyrics == '').all()
-  url = GenerateLyricsUrl(artist, title)
-  parsed_result = data_acquisition.GetURL(url)
-  lyrics = data_aquisition.ParseLyricData(parsed_result)
   pdb.set_trace()
-  
-  pass
+    url = GenerateLyricsUrl(artist, title)
+    parsed_result = data_acquisition.GetURL(url)
+    lyrics = data_aquisition.ParseLyricData(parsed_result)
+
 
