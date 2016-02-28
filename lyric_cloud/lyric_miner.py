@@ -34,13 +34,14 @@ def GetLyrics():
   SLEEP_MIN = 0 
   SLEEP_MAX = 2
   random.seed()
-  sleep_minutes = random.randint(SLEEP_MIN, SLEEP_MAX)
-  sleep_seconds = random.randint(0, 59)
-  sleep_time = (sleep_minutes * 60) + sleep_seconds
   
+  SEED.SONG_ID
   session = database.session
-  songs = session.query(models.Song).filter(models.Song.lyrics == None).all()
+  songs = session.query(models.Song).filter(models.Song.lyrics == None, models.song_id > SEED.SONG_ID).all()
   for song in songs:
+    sleep_minutes = random.randint(SLEEP_MIN, SLEEP_MAX)
+    sleep_seconds = random.randint(0, 59)
+    sleep_time = (sleep_minutes * 60) + sleep_seconds
     print('Sleeping for {} seconds.'.format(sleep_time))
     time.sleep(sleep_time)
     artist = song.artist
@@ -55,7 +56,6 @@ def GetLyrics():
     if parsed_result:
       lyrics = data_acquisition.ParseLyricData(parsed_result)
       lyric_update = models.Lyrics()
-      pdb.set_trace()
       lyric_update.song_id = song_id
       lyric_update.lyrics = lyrics
       session.add(lyric_update)
