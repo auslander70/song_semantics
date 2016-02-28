@@ -35,7 +35,7 @@ def GetLyrics():
   SLEEP_MAX = 2
   random.seed()
   
-  SEED.SONG_ID
+  SEED.SONG_ID = 14
   session = database.session
   songs = session.query(models.Song).filter(models.Song.lyrics == None, models.song_id > SEED.SONG_ID).all()
   for song in songs:
