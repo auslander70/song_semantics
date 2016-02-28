@@ -2,6 +2,7 @@ import pdb
 import random
 import time
 import unicodedata
+import urllib
 
 from datetime import datetime
 
@@ -28,12 +29,35 @@ def RemoveLeadingArticle(article, fragment, separator):
   fragment = ' '.join(fraglist).strip()
   return fragment
   
-def GetLyrics(artist, title):
+def GetLyrics():
+  # sleep range in minutes
+  SLEEP_MIN = 0 
+  SLEEP_MAX = 2
+  random.seed()
+  sleep_minutes = random.randint(SLEEP_MIN, SLEEP_MAX)
+  sleep_seconds = random.randint(0, 59)
+  sleep_time = (sleep_minutes * 60) + sleep_seconds
+  
   session = database.session
-  songs = session.query(Song).filter(lyrics == '').all()
-  pdb.set_trace()
+  songs = session.query(models.Song).filter(models.Song.lyrics == None).all()
+  for song in songs:
+    print('Sleeping for {} seconds.'.format(sleep_time))
+    time.sleep(sleep_time)
+    artist = song.artist
+    title = song.title
+    song_id = song.id
     url = GenerateLyricsUrl(artist, title)
-    parsed_result = data_acquisition.GetURL(url)
-    lyrics = data_aquisition.ParseLyricData(parsed_result)
-
-
+    print('Trying {}'.format(url))
+    try:
+      parsed_result = data_acquisition.GetURL(url)
+    except urllib.error.HTTPError:
+      parsed_result = None
+    if parsed_result:
+      lyrics = data_acquisition.ParseLyricData(parsed_result)
+      lyric_update = models.Lyrics()
+      pdb.set_trace()
+      lyric_update.song_id = song_id
+      lyric_update.lyrics = lyrics
+      session.add(lyric_update)
+      print('Lyric retrieval for {} successful.'.format(title))
+      session.commit()

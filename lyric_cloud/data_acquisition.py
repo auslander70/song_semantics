@@ -95,7 +95,7 @@ def ParseLyricData(soup):
         string containing song lyrics
     """
     
-    lyric = parsed_result.find('p', {'id': 'lyrics_text'}).get_text().replace('\n',' \n ')
+    lyric = soup.find('p', {'id': 'lyrics_text'}).get_text().replace('\n',' \n ')
     return lyric
 
     
