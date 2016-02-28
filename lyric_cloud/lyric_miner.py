@@ -56,7 +56,7 @@ def GetLyrics():
       parsed_result = None
     if parsed_result:
       lyrics = data_acquisition.ParseLyricData(parsed_result)
-      lyrics = unicodedata.normalize('NFKD', lyrics.encode)('ascii','ignore')
+      lyrics = unicodedata.normalize('NFKD', lyrics).encode('ascii','ignore')
       lyrics = lyrics.decode('utf-8')
       lyric_update = models.Lyrics()
       lyric_update.song_id = song_id
