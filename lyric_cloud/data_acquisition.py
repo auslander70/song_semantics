@@ -4,7 +4,7 @@ from datetime import timedelta
 
 import urllib
 
-SEED_DATE = '1962-01-13'
+SEED_DATE = '2003-12-20'
 TEST_URL = 'http://www.billboard.com/charts/hot-100/1958-08-09'
 DATE_FORMAT = '%Y-%m-%d'
 

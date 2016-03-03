@@ -1,6 +1,7 @@
 import os
 from lyric_cloud import app
 from lyric_cloud import chart_miner
+from lyric_cloud import lyric_miner
 from lyric_cloud.database import Base, engine, session
 from flask.ext.script import Manager
 from getpass import getpass
@@ -18,6 +19,11 @@ def run():
 def get_charts():
   chart_miner.GetCharts()
 
+  
+@manager.command
+def get_lyrics():
+  lyric_miner.GetLyrics()
+  
   
 @manager.command
 def adduser():
