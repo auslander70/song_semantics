@@ -19,12 +19,12 @@ def run():
 def get_charts():
   chart_miner.GetCharts()
 
-  
 @manager.command
 def get_lyrics():
   lyric_miner.GetLyrics()
   
-  
+
+"""
 @manager.command
 def adduser():
   name = input("Name: ")
@@ -41,6 +41,7 @@ def adduser():
               password=generate_password_hash(password))
   session.add(user)
   session.commit()
+"""
 
 if __name__ == "__main__":
   manager.run()

@@ -145,8 +145,26 @@ createdb semantics-test
 
 
 # TODO
-1. write manage.py and start using it to run data getting stuff
-2. validate the db schema
-3. write lyric acquisition functions/parser
+#1. write manage.py and start using it to run data getting stuff
+#2. validate the db schema
+#3. write lyric acquisition functions/parser
+3. dump db, initdb --locale=en_US.UTF-8 (or try createdb --locale...)
 4. write some simple views to look at data (once it's there)
+    * show songs
+    * show charts
+    * show song and lyrics
+    * input url and obtain lyrics
+5. create db schema for storing lyric word counts
+6. write the lyric counting function
+7. tweak lyric miner, add additional module for another lyric site.
+8. convert request sleep to just randrange(60,180)
 
+# postgresql
+research textsearch psql
+http://www.postgresql.org/docs/current/static/textsearch.html
+http://www.postgresql.org/docs/current/static/textsearch-features.html#TEXTSEARCH-STATISTICS
+http://www.postgresql.org/docs/current/static/datatype-textsearch.html
+# postgresql locale issues preventing proper unicode handling
+http://www.postgresql.org/docs/9.1/static/locale.html
+# Jinja2
+use inherit and extend (rather than say include)
