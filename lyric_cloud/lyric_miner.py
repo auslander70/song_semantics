@@ -5,6 +5,7 @@ import unicodedata
 import urllib
 
 from datetime import datetime
+from sqlalchemy import desc
 
 # from lyric_cloud.data_acquisition import DATE_FORMAT, FunctionName, Function
 from lyric_cloud import data_acquisition
@@ -28,21 +29,28 @@ def RemoveLeadingArticle(article, fragment, separator):
   fraglist[0] = fraglist[0].replace(article, '')
   fragment = ' '.join(fraglist).strip()
   return fragment
-  
+
+def GetMaxLyricSongId():
+  session = database.session
+  query_result = session.query(models.Lyrics.song_id).order_by(desc(models.Lyrics.song_id)).first()
+  max_id = query_result[0]
+  return max_id
+
 def GetLyrics():
-  # sleep range in minutes
-  SLEEP_MIN = 0 
-  SLEEP_MAX = 2
+  # sleep range in seconds
+  SLEEP_MIN = 60 
+  SLEEP_MAX = 240
   random.seed()
   
-  SEED_SONG_ID = 172
+  SEED_SONG_ID = ''
+  if not SEED_SONG_ID:
+    SEED_SONG_ID = GetMaxLyricSongId()
+    
   session = database.session
   songs = session.query(models.Song).filter(models.Song.lyrics == None, models.Song.id > SEED_SONG_ID).all()
   print('Starting with song_id {}'.format(SEED_SONG_ID + 1))
   for song in songs:
-    sleep_minutes = random.randint(SLEEP_MIN, SLEEP_MAX)
-    sleep_seconds = random.randint(0, 59)
-    sleep_time = (sleep_minutes * 60) + sleep_seconds
+    sleep_time = random.randint(SLEEP_MIN, SLEEP_MAX)
     print('Sleeping for {} seconds.'.format(sleep_time))
     time.sleep(sleep_time)
     artist = song.artist

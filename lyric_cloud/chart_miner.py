@@ -4,6 +4,7 @@ import time
 import unicodedata
 
 from datetime import datetime
+from sqlalchemy import desc
 
 # from lyric_cloud.data_acquisition import DATE_FORMAT, FunctionName, Function
 from lyric_cloud import data_acquisition
@@ -27,35 +28,39 @@ def ChartExists(session, datestamp):
   else:
     chart_id = ''
   return chart_id
-  
-def GetCharts():
-  # sleep range in minutes
-  SLEEP_MIN = 2 
-  SLEEP_MAX = 4
-  
+
+def GetMaxChartId():
   session = database.session
-  # get most recent chart from database
-  #charts = session.query(models.Chart.date, models.Chart.id).order_by(models.Chart.date).all()
-  charts = []
+  query_result = session.query(models.Chart.id).order_by(desc(models.Chart.id)).first()
+  max_id = query_result[0]
+  return max_id
+
+def GetMaxChartDate():
+  max_id = GetMaxChartId()
+  session = database.session
+  chart_record = session.query(models.Chart.date).filter(models.Chart.id == max_id).first()
+  max_date = chart_record[0]
+  return max_date
+
+def GetCharts():
+  # sleep range in seconds
+  SLEEP_MIN = 90 
+  SLEEP_MAX = 240
   
-  if charts == []:
-    datestring = data_acquisition.SEED_DATE
-  else:
-    # TODO: parse charts to get most recent datestring
-    # datestring = most_recent_datestring
-    pass
-  
+  max_chartdate = datetime.strftime(GetMaxChartDate(), data_acquisition.DATE_FORMAT)  
+
+  datestring = data_acquisition.GetNextSaturday(max_chartdate)
+
   datestamp = datetime.strptime(datestring, data_acquisition.DATE_FORMAT)
+  session = database.session
   
   while datestamp < datetime.now():
     if datestring == data_acquisition.SEED_DATE:
       sleep_time = 1
     else:
       random.seed()
-      sleep_minutes = random.randint(SLEEP_MIN, SLEEP_MAX)
-      sleep_seconds = random.randint(0, 59)
-      sleep_time = (sleep_minutes * 60) + sleep_seconds
-      
+      sleep_time = random.randint(SLEEP_MIN, SLEEP_MAX)
+
     print('Sleeping for {} seconds.'.format(sleep_time))
     time.sleep(sleep_time)
     

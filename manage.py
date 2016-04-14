@@ -23,7 +23,18 @@ def get_charts():
 def get_lyrics():
   lyric_miner.GetLyrics()
   
+@manager.command
+def max_lyric_songid():
+  print(lyric_miner.GetMaxLyricSongId())
 
+@manager.command
+def max_chartid():
+  print(chart_miner.GetMaxChartId())
+  
+@manager.command
+def max_chartdate():
+  print(chart_miner.GetMaxChartDate())
+  
 """
 @manager.command
 def adduser():
